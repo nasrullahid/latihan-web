@@ -16,3 +16,5 @@
 # 5. Buat variabel berat (kg) dan zona ("dalam" / "luar"). Tarif: dalam kota 10000/kg, luar kota 18000/kg. Jika total > 100000, beri diskon 10%. Cetak ongkir akhir.
 
 # 6. Buat fungsi Kalkulator hitung(a, b, operator) di mana operator bisa "+", "-", "*", "/". Kembalikan hasilnya. Tangani pembagian dengan nol (kembalikan "Error: bagi nol").
+
+# 7. Buat fungsi untuk mengecek bilangan prima. Cetak apakah bilangan tersebut prima atau bukan.
