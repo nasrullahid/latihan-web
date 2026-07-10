@@ -48,3 +48,24 @@ echo '<hr>';
 echo $produk->tampilkan();
 echo '<hr>';
 echo $produk->totalNilai();
+
+echo '<hr>';
+
+// Kategori multi produk
+class Kategori {
+  public $daftarProduk = [];
+  public function __construct(public $nama){}
+
+  public function tambahProduk(Produk $p){
+    $this->daftarProduk[] = $p;
+  }
+  public function jumlahProduk(){
+    //jumlah produk dalam $daftarProduk
+    return count($this->daftarProduk);
+  }
+}
+
+$minuman = new Kategori('Minuman');
+$minuman->tambahProduk(new Produk('Kopi Susu', 13000));
+$minuman->tambahProduk(new Produk('Air', 5000));
+echo "Jumlah produk: ".$minuman->jumlahProduk();
