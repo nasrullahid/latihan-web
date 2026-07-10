@@ -31,7 +31,7 @@
           //   $simbol = '*';
           // }
           
-          // $_POST['simbol'] ? $_POST['simbol'] : '*';
+          // $simbol = $_POST['simbol'] ? $_POST['simbol'] : '*';
 
           $jumlah = $_POST['jumlah'] ?? 0;
 
