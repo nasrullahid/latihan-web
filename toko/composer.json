@@ -1,0 +1,17 @@
+{
+  "name": "nasrullahid/toko",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Nasrullah",
+      "email": "halo.nasrullah@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.14"
+  }
+}
