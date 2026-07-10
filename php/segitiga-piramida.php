@@ -39,7 +39,7 @@
           for ($i = 1; $i <= $jumlah; $i++) {
               // 1. Cetak spasi di kiri
               for ($s = 1; $s <= $jumlah - $i; $s++) {
-                  echo " "; // spasi
+                  echo "&nbsp;"; // spasi
               }
               // 2. Cetak simbol (jumlah ganjil: 1, 3, 5, ...)
               for ($k = 1; $k <= 2 * $i - 1; $k++) {
