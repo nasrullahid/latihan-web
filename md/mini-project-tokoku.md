@@ -10,6 +10,11 @@ Kalian dipesan membuat website tersebut menggunakan Laravel.
 
 1. Folder proyek Laravel bernama `tokoku` (kirim tanpa folder `vendor/` dan `node_modules/`)
 2. **Repository Git** dengan **minimal 5 commit bermakna** (lihat bagian Git di bawah)
+3. Config git username dan email
+``` sh
+git config --global user.name "Nasrullah"
+git config --global user.email "email@nasrullah.id"
+```
 
 ---
 
