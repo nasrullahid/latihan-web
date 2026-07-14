@@ -133,7 +133,7 @@ php artisan make:controller BerandaController
 
 **L2-5.** Halaman `/produk/{id}` menampilkan detail satu produk. Jika `id` tidak ditemukan, tampilkan **404** dengan `abort(404)`.
 
-**L2-6.** Harga wajib tampil sebagai `Rp 8.750.000` (gunakan `number_format`).
+**L2-6.** Harga wajib tampil sebagai `Rp 8.750.000` (gunakan `number_format($harga,0,',','.')`).
 
 **L2-7.** Produk dengan `stok = 0` wajib ditandai **"Stok Habis"** (gunakan `@if` / `@else`) dan tombol detailnya dinonaktifkan/diberi warna berbeda.
 
