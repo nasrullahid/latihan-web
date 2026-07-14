@@ -10,8 +10,6 @@ Kalian dipesan membuat website tersebut menggunakan Laravel.
 
 1. Folder proyek Laravel bernama `tokoku` (kirim tanpa folder `vendor/` dan `node_modules/`)
 2. **Repository Git** dengan **minimal 5 commit bermakna** (lihat bagian Git di bawah)
-3. Screenshot 4 halaman yang berjalan di browser
-4. File `CATATAN.md` berisi jawaban 3 pertanyaan refleksi (ada di bagian akhir)
 
 ---
 
@@ -29,6 +27,9 @@ Kalian dipesan membuat website tersebut menggunakan Laravel.
 - Semua link antar halaman **wajib memakai `route()`**, bukan URL manual (`href="/produk"` ❌ → `href="{{ route('produk.index') }}"` ✅)
 - **Tidak boleh ada logika data di dalam Blade.** Blade hanya menampilkan. Semua pengambilan/penyaringan data dilakukan di Controller.
 - Semua halaman **wajib mewarisi satu layout master** (`@extends`).
+- ``` php
+  Route::get('/produk',[ProdukController::class,'index'])->name('produk.index');
+  ```
 
 ---
 
