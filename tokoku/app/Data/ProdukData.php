@@ -2,9 +2,21 @@
 
 namespace App\Data;
 
+/**
+ * ProdukData
+ *
+ * Class sumber data produk (data dummy / hardcoded).
+ * Berperan sebagai "pengganti database" sederhana untuk latihan:
+ * seluruh data produk disimpan di sini, lalu diambil oleh controller & view.
+ *
+ * Semua method dibuat static supaya bisa dipanggil langsung tanpa
+ * membuat object terlebih dahulu, contoh: ProdukData::semua().
+ */
 class ProdukData
 {
-    // Untuk menampilkan semua data produk
+    // Mengembalikan seluruh data produk sebagai array asosiatif.
+    // Tiap produk punya key: id, nama, kategori, slug_kategori, harga,
+    // stok, unggulan (bool), gambar (URL), aksen (warna), dan deskripsi.
     public static function semua(): array
     {
         return [
@@ -19,32 +31,35 @@ class ProdukData
         ];
     }
 
-    // Filter produk by produk id dari params url
+    // Mencari satu produk berdasarkan id (biasanya dari parameter URL).
+    // Return array produk jika ketemu, atau null (?array) jika tidak ada.
     public static function produkById(int $id): ?array
     {
-        // looping array di dalam loopingnya baru di samakan 
+        // Loop semua produk, lalu cocokkan id-nya satu per satu.
         foreach (self::semua() as $produk) {
             if ($produk['id'] === $id) {
-                return $produk;
+                return $produk; // ketemu -> langsung kembalikan produknya
             }
         }
-        return null;
+        return null; // tidak ada yang cocok
     }
 
-    // Fungsi untuk mencari data produk berdasarkan keyword yang diinput
-    // key yang di filter nama, kategori dan deskripsi
-    // strtolower = membuat semua string menjadi huruf kecil
-    // str_contains = membadingkan 2 parameter apakah terdapat kata yang sama
+    // Mencari produk berdasarkan keyword yang diinput user.
+    // Field yang dicek: nama, kategori, dan deskripsi.
+    // strtolower  = mengubah semua huruf jadi kecil (agar pencarian tidak case-sensitive)
+    // str_contains = mengecek apakah keyword terdapat di dalam sebuah string
     public static function cari(string $keyword): array
     {
-        $hasil = [];
-        $keyword = strtolower($keyword);
+        $hasil = [];                       // menampung produk yang cocok
+        $keyword = strtolower($keyword);   // samakan huruf keyword jadi lowercase
 
         foreach (self::semua() as $produk) {
+            // Ubah tiap field ke lowercase supaya bisa dibandingkan dengan keyword
             $nama = strtolower($produk['nama']);
             $kategori = strtolower($produk['kategori']);
             $deskripsi = strtolower($produk['deskripsi']);
 
+            // Masukkan produk ke hasil jika keyword ada di salah satu field
             if (
                 str_contains($nama, $keyword) ||
                 str_contains($kategori, $keyword) ||
@@ -57,12 +72,14 @@ class ProdukData
         return $hasil;
     }
 
-    // Menampilkan produk berdasarkan kategori dari params URL
+    // Mengambil semua produk yang termasuk dalam satu kategori.
+    // $slugKategori diambil dari parameter URL, contoh: "elektronik".
     public static function perKategori(string $slugKategori): array
     {
         $hasil = [];
 
         foreach (self::semua() as $produk) {
+            // Kumpulkan produk yang slug kategorinya sama dengan yang dicari
             if ($produk['slug_kategori'] === $slugKategori) {
                 $hasil[] = $produk;
             }
@@ -71,7 +88,8 @@ class ProdukData
         return $hasil;
     }
 
-    // Filter data produk berdasarkan value unggulan = true
+    // Mengambil hanya produk yang ditandai sebagai unggulan (unggulan === true).
+    // Dipakai di halaman beranda untuk menampilkan produk pilihan.
     public static function unggulan(): array
     {
         $hasil = [];
@@ -85,7 +103,8 @@ class ProdukData
         return $hasil;
     }
 
-    // Membuat daftar kategori berdasarkan slug_kategori pada data produk
+    // Membuat daftar kategori unik dari seluruh produk.
+    // Dipakai antara lain untuk membuat menu kategori di navbar.
     public static function daftarKategori(): array
     {
         $kategori = [];
@@ -93,6 +112,8 @@ class ProdukData
         foreach (self::semua() as $produk) {
             $slug = $produk['slug_kategori'];
 
+            // Simpan kategori hanya sekali (skip kalau slug sudah pernah dicatat),
+            // sehingga tidak ada kategori yang tampil ganda.
             if (!isset($kategori[$slug])) {
                 $kategori[$slug] = [
                     'nama' => $produk['kategori'],
@@ -101,6 +122,7 @@ class ProdukData
             }
         }
 
+        // array_values() untuk membuang key slug dan mengubahnya jadi array biasa (0,1,2,...)
         return array_values($kategori);
     }
 }

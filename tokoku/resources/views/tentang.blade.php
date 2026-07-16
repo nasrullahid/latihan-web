@@ -1,6 +1,12 @@
+{{--
+    tentang.blade.php — Halaman "Tentang".
+    Halaman statis (tanpa data dari controller), isinya penjelasan singkat
+    tentang toko dan fitur-fitur project. Ditampilkan oleh BerandaController@tentang.
+--}}
 @extends('layouts.app')
 @section('judul', 'Tentang')
 @section('konten')
+    {{-- Bagian atas: penjelasan toko (kiri) & kartu info toko (kanan) --}}
     <section class="border-b border-slate-200 bg-white">
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-16">
             <div>
@@ -34,6 +40,7 @@
         </div>
     </section>
 
+    {{-- Bagian bawah: 3 kartu fitur + ajakan membuka katalog produk --}}
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="grid gap-6 md:grid-cols-3">
             <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">

@@ -1,13 +1,20 @@
+{{--
+    produk/index.blade.php — Halaman katalog (daftar semua produk).
+    Data $produk dikirim dari ProdukController@index.
+--}}
 @extends('layouts.app')
 @section('judul', 'Produk')
 @section('konten')
     @php
-        $totalProduk = count($produk);
-        $produkUnggulan = collect($produk)->where('unggulan', true)->count();
-        $stokTersedia = collect($produk)->where('stok', '>', 0)->count();
-        $kategori = collect($produk)->pluck('kategori')->unique()->values();
+        // Hitung angka ringkasan untuk ditampilkan di bagian statistik.
+        // collect() mengubah array biasa jadi Collection agar bisa pakai helper Laravel.
+        $totalProduk = count($produk);                                        // jumlah semua produk
+        $produkUnggulan = collect($produk)->where('unggulan', true)->count(); // jumlah produk unggulan
+        $stokTersedia = collect($produk)->where('stok', '>', 0)->count();     // jumlah produk yang stoknya ada
+        $kategori = collect($produk)->pluck('kategori')->unique()->values();  // daftar kategori unik
     @endphp
 
+    {{-- Bagian hero: judul katalog (kiri) + kotak statistik ringkas (kanan) --}}
     <section class="border-b border-slate-200 bg-white">
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-14">
             <div class="flex flex-col justify-center">
@@ -54,6 +61,7 @@
             <p class="text-sm font-semibold text-slate-500">{{ $totalProduk }} item tersedia di katalog</p>
         </div>
 
+        {{-- Grid semua produk: render tiap produk memakai komponen kartu-produk --}}
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @foreach ($produk as $item)
                 <x-kartu-produk :produk="$item" />

@@ -1,11 +1,19 @@
+{{--
+    produk/show.blade.php — Halaman detail satu produk.
+    Data $produk & $produkTerkait dikirim dari ProdukController@show.
+    Judul tab otomatis mengikuti nama produk.
+--}}
 @extends('layouts.app')
 @section('judul', $produk['nama'])
 @section('konten')
     @php
+        // Status ketersediaan produk, dipakai untuk mengubah label tombol & warna status
         $tersedia = $produk['stok'] > 0;
     @endphp
 
+    {{-- Bagian utama: gambar produk (kiri) + info detail produk (kanan) --}}
     <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {{-- Tombol kembali ke daftar produk --}}
         <a href="{{ route('produk.index') }}"
             class="mb-6 inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:border-slate-300 hover:text-slate-950">
             Kembali ke Produk
@@ -63,16 +71,19 @@
         </div>
     </section>
 
+    {{-- Bagian produk terkait: produk lain dari kategori yang sama --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <div class="mb-6">
             <h2 class="text-2xl font-black tracking-normal text-slate-950">Produk Terkait</h2>
             <p class="mt-1 text-sm text-slate-500">Produk lain dari kategori {{ $produk['kategori'] }}.</p>
         </div>
 
+        {{-- @forelse = @foreach + penanganan saat data kosong (@empty) --}}
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($produkTerkait as $p)
                 <x-kartu-produk :produk="$p" />
             @empty
+                {{-- Ditampilkan bila tidak ada produk terkait --}}
                 <div class="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
                     Belum ada produk terkait.
                 </div>
