@@ -4,6 +4,7 @@ namespace App\Data;
 
 class ProdukData
 {
+    // Untuk menampilkan semua data produk
     public static function semua(): array
     {
         return [
@@ -18,6 +19,7 @@ class ProdukData
         ];
     }
 
+    // Filter produk by produk id dari params url
     public static function produkById(int $id): ?array
     {
         // looping array di dalam loopingnya baru di samakan 
@@ -29,6 +31,10 @@ class ProdukData
         return null;
     }
 
+    // Fungsi untuk mencari data produk berdasarkan keyword yang diinput
+    // key yang di filter nama, kategori dan deskripsi
+    // strtolower = membuat semua string menjadi huruf kecil
+    // str_contains = membadingkan 2 parameter apakah terdapat kata yang sama
     public static function cari(string $keyword): array
     {
         $hasil = [];
@@ -51,6 +57,7 @@ class ProdukData
         return $hasil;
     }
 
+    // Menampilkan produk berdasarkan kategori dari params URL
     public static function perKategori(string $slugKategori): array
     {
         $hasil = [];
@@ -64,6 +71,7 @@ class ProdukData
         return $hasil;
     }
 
+    // Filter data produk berdasarkan value unggulan = true
     public static function unggulan(): array
     {
         $hasil = [];
@@ -77,6 +85,7 @@ class ProdukData
         return $hasil;
     }
 
+    // Membuat daftar kategori berdasarkan slug_kategori pada data produk
     public static function daftarKategori(): array
     {
         $kategori = [];
