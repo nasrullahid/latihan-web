@@ -125,4 +125,72 @@ class ProdukData
         // array_values() untuk membuang key slug dan mengubahnya jadi array biasa (0,1,2,...)
         return array_values($kategori);
     }
+
+    // Menghitung angka-angka ringkasan untuk dashboard.
+    // Dipakai oleh DashboardController untuk mengisi kartu statistik.
+    public static function statistik(): array
+    {
+        $produk = self::semua();
+
+        return [
+            // Jumlah seluruh produk.
+            'total_produk'   => count($produk),
+            // Jumlah unit stok dari semua produk digabung.
+            'total_stok'     => array_sum(array_column($produk, 'stok')),
+            // Total nilai persediaan = jumlah dari (harga x stok) tiap produk.
+            'nilai_stok'     => array_sum(array_map(fn ($p) => $p['harga'] * $p['stok'], $produk)),
+            // Jumlah produk yang ditandai unggulan.
+            'total_unggulan' => count(array_filter($produk, fn ($p) => $p['unggulan'] === true)),
+            // Jumlah produk yang stoknya sudah habis (0).
+            'total_habis'    => count(array_filter($produk, fn ($p) => $p['stok'] === 0)),
+        ];
+    }
+
+    // Membuat rekap per kategori: jumlah produk & total stok tiap kategori.
+    // Hasilnya array biasa berisi: nama, slug, jumlah, total_stok.
+    public static function ringkasanKategori(): array
+    {
+        $ringkasan = [];
+
+        foreach (self::semua() as $produk) {
+            $slug = $produk['slug_kategori'];
+
+            // Siapkan baris kategori sekali saja, lalu akumulasikan angkanya.
+            if (!isset($ringkasan[$slug])) {
+                $ringkasan[$slug] = [
+                    'nama'       => $produk['kategori'],
+                    'slug'       => $slug,
+                    'jumlah'     => 0,
+                    'total_stok' => 0,
+                ];
+            }
+
+            $ringkasan[$slug]['jumlah']++;
+            $ringkasan[$slug]['total_stok'] += $produk['stok'];
+        }
+
+        // Buang key slug agar jadi array urut biasa (0,1,2,...).
+        return array_values($ringkasan);
+    }
+
+    // Mengambil produk yang perlu perhatian stok:
+    // - "habis"   = stok 0
+    // - "menipis" = stok 1..$ambang (default 5)
+    // Tiap produk ditambah key 'status_stok' agar mudah ditampilkan di view.
+    public static function stokMenipis(int $ambang = 5): array
+    {
+        $hasil = [];
+
+        foreach (self::semua() as $produk) {
+            if ($produk['stok'] <= $ambang) {
+                $produk['status_stok'] = $produk['stok'] === 0 ? 'habis' : 'menipis';
+                $hasil[] = $produk;
+            }
+        }
+
+        // Urutkan dari stok paling kecil supaya yang paling genting (habis) tampil di atas.
+        usort($hasil, fn ($a, $b) => $a['stok'] <=> $b['stok']);
+
+        return $hasil;
+    }
 }

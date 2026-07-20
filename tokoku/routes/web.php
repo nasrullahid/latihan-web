@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,9 @@ use App\Http\Controllers\KategoriController;
 
 // Halaman beranda (URL: /)
 Route::get('/', [BerandaController::class,'index'])->name('beranda');
+
+// Halaman dashboard admin / kelola toko (URL: /dashboard)
+Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard.index');
 
 // Halaman tentang (URL: /tentang)
 Route::get('/tentang', [BerandaController::class,'tentang'])->name('tentang');
