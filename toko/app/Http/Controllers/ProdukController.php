@@ -8,58 +8,77 @@ use Illuminate\Http\Request;
 class ProdukController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan seluruh produk (halaman katalog).
      */
     public function index()
     {
-        return view('produk.index');
+        $produk = Produk::all();
+        return view('produk.index', ['produk' => $produk]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form tambah produk baru.
      */
     public function create()
     {
-        //
+        return view('produk.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan produk baru ke database.
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|integer|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
+
+        Produk::create($data);
+
+        return redirect('/produk');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail satu produk.
      */
     public function show(Produk $produk)
     {
-        return view('produk.show');
+        return view('produk.show', ['produk' => $produk]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit produk.
      */
     public function edit(Produk $produk)
     {
-        //
+        return view('produk.edit', ['produk' => $produk]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Menyimpan perubahan produk ke database.
      */
     public function update(Request $request, Produk $produk)
     {
-        //
+        $data = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|integer|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
+
+        $produk->update($data);
+
+        return redirect('/produk/' . $produk->id);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus produk dari database.
      */
     public function destroy(Produk $produk)
     {
-        //
+        $produk->delete();
+
+        return redirect('/produk');
     }
 }
