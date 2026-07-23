@@ -37,5 +37,7 @@ class DatabaseSeeder extends Seeder
             'nama'=>'Budi',
             'alamat' => 'Jl. ini budi'
         ]);
+
+        $this->call(ProdukSeeder::class);
     }
 }
